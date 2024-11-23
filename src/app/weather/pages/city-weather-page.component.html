@@ -3,22 +3,33 @@
         <div class="p-2 flex flex-col justify-around">
             <div class="">
                 <p class="titles color-white">{{listState.resultObj.city.name}}</p>
-                <sup class="subtitles color-grey">Chance to rain: </sup>
+                <sup class="subtitles color-grey">Chance to rain: {{getRainChance(listState.resultObj.list[0].rain)}}% </sup>
             </div>
             <div *ngIf="listState.resultObj.list && listState.resultObj.list[0].main">
                 <p class="titles color-white">{{ listState.resultObj.list[0].main.temp }}°C</p>
             </div>
         </div>
-        <div class="p-2 flex justify-center items-center" *ngIf="weatherIcon">
-            <img [src]="weatherIcon" alt="Weather Icon" />
+        <div class="p-2 flex justify-center items-center">
+            <img [src]="getIcon(listState.resultObj.list[0].weather[0].icon)" alt="Weather Icon" />
           </div>
     </div>
-    <div class="bg-gray-800 rounded-lg p-4 row-start-2">2</div>
-    <div class="bg-gray-800 rounded-lg p-4 row-start-3">3</div>
+    <div class="bg-gray-800 rounded-lg p-4 row-start-2" *ngIf="listState.state === listStateValue.SUCCESS">
+        <app-upcoming-forecast
+            [upcomingForecast]="listState.resultObj.list | slice:0:6"
+        ></app-upcoming-forecast>
+    </div>
+    <div class="bg-gray-800 rounded-lg p-4 row-start-3" *ngIf="listState.state === listStateValue.SUCCESS">
+        <app-air-conditions
+            [realFell]="listState.resultObj.list[0].main.feels_like"
+            [chanceToRain]="getRainChance(listState.resultObj.list[0].rain)"
+            [wind]="listState.resultObj.list[0].wind.speed"
+            [pressure]="listState.resultObj.list[0].main.pressure"
+        ></app-air-conditions>
+    </div>
     <div class="bg-gray-800 rounded-lg p-4 col-span-1 row-span-3 h-full" *ngIf="weekForecast">
         <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey">5-Day Forecast</h1>
         <div class="space-y-4 flex flex-col justify-between h-full p-10">
-            <app-week-forecast></app-week-forecast>
+            <!-- <app-week-forecast></app-week-forecast> -->
             <div *ngFor="let forecast of weekForecast; let last = last" class="flex items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
                 <div class="w-1/3">
                     <span class="block subtitles color-grey">{{ forecast.dt_txt | dayAbbreviation }}</span>

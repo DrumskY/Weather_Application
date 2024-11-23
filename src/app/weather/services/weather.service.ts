@@ -1,16 +1,8 @@
-import { Injectable, computed, inject, signal } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { EMPTY, Observable, catchError, delay, map, tap } from "rxjs";
+import { Injectable, inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, map } from "rxjs";
 import { WeatherForecast } from "../types/ForecastType";
 import { CityDetailsType } from "../types/CityDetailsType";
-
-export type TaskUpdatePayload = { done?: boolean; name?: string; urgent?: boolean };
-
-export type LoadingState = {
-  idle: boolean;
-  loading: boolean;
-  error:  null;
-};
 
 @Injectable({
   providedIn: "root",

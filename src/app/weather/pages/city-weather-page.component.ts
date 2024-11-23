@@ -1,33 +1,30 @@
 import { Component, inject } from "@angular/core";
 import { WeatherApiService } from "../services/weather.service";
-import { NgFor, NgIf } from "@angular/common";
+import { CommonModule, NgFor, NgIf } from "@angular/common";
 import { ComponentListState, LIST_STATE_VALUE } from "../../utils/list-state.type";
 import { DailyForecast, WeatherForecast } from "../types/ForecastType";
 import { CityDetailsType } from "../types/CityDetailsType";
 import { DayAbbreviationPipe } from "../../pipes/day-abbreviation.pipe";
-import { WeekForecastComponent } from "../components/week-forecast.component";
+import { UpcomingForecastComponent } from "../components/upcoming-forecast.component";
+import { AirConditionsComponent } from "../components/air-conditions.component";
+// import { WeekForecastComponent } from "../components/week-forecast.component";
 
 @Component({
     selector: 'app-city-weather-page',
     standalone: true,
-    imports:[NgIf, NgFor, DayAbbreviationPipe, WeekForecastComponent],
+    imports:[NgIf, NgFor, DayAbbreviationPipe, UpcomingForecastComponent, AirConditionsComponent, CommonModule ],
     templateUrl: './city-weather-page.component.html',
     styleUrl: './city-weather-page.component.scss'
 })
 export class CityWeatherPageComponent {
     private weatherService = inject(WeatherApiService)
-    public name: any
     public location: { latitude: number; longitude: number } | null = null;
-    listState: ComponentListState<WeatherForecast> = { state: LIST_STATE_VALUE.IDLE };
-    listStateValue = LIST_STATE_VALUE;
-    weatherIcon: string = ''
-    weekForecast: DailyForecast[] = [];
+    public listState: ComponentListState<WeatherForecast> = { state: LIST_STATE_VALUE.IDLE };
+    public listStateValue = LIST_STATE_VALUE;
+    public weekForecast: DailyForecast[] = [];
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getLocation()
-        console.log(this.getIcon('04d'))
-        // const iconCode = '10d';
-        // this.weatherIcon = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
     }
 
     getLocation(): void {
@@ -48,22 +45,15 @@ export class CityWeatherPageComponent {
           });
       }
 
-      getForecastWeatherData(lat: number, lon: number) {
+      getForecastWeatherData(lat: number, lon: number): void {
         this.weatherService.getForecastWeatherData(String(lat), String(lon)).subscribe(
             (response: WeatherForecast)=>{
-                console.log(response)
                 this.listState = {
                     state: LIST_STATE_VALUE.SUCCESS,
                     resultObj: response,
                 };
                 console.log(this.listState)
                 this.weekForecast = this.getWeekForcast(this.listState.resultObj.list);
-                console.log(this.weekForecast)
-                this.weatherService.getIcon(response.list[0].weather[0].icon).subscribe(
-                    (weatherIcon: string)=>{
-                        this.weatherIcon = weatherIcon
-                    }
-                )
             }
         )
       }
@@ -72,9 +62,9 @@ export class CityWeatherPageComponent {
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
       }
 
-      getWeekForcast(list: any[]): any[] {
-        const result: any[] = [];
-        const groupedByDate: { [date: string]: any[] } = {};
+      getWeekForcast(list: DailyForecast[]): DailyForecast[] {
+        const result: DailyForecast[] = [];
+        const groupedByDate: { [date: string]: DailyForecast[] } = {};
     
         // Group entries by date
         list.forEach((entry) => {
@@ -99,5 +89,17 @@ export class CityWeatherPageComponent {
         }
     
         return result;
+      }
+
+      getRainChance(rain?: { [key: string]: string }): number {
+        // Jeśli rain jest undefined lub pusty, zwróć '0'
+        if (!rain || Object.keys(rain).length === 0) {
+          return 0;
+        }
+  
+        // Jeśli rain zawiera dane, zwróć wartość pierwszego klucza
+        const firstKey = Object.keys(rain)[0];
+        const percent = Number(rain[firstKey]) * 100
+        return percent;
       }
 }

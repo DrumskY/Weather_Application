@@ -23,7 +23,7 @@ export interface WeatherForecast {
   export interface DailyForecast {
     dt: number; // Unix timestamp]
     dt_txt: string;
-    main: any;
+    main: Main;
     sunrise: number; // Unix timestamp
     sunset: number; // Unix timestamp
     temp: Temperature;
@@ -36,7 +36,28 @@ export interface WeatherForecast {
     gust: number;
     clouds: number;
     pop: number;
-    rain?: number; // Optional, as it may not always be present
+    rain?: {
+      [key: string]: string;
+    };
+    wind: Wind;
+  }
+
+  export interface Wind {
+    deg: number;
+    gust: number;
+    speed: number;
+  }
+
+  export interface Main {
+    feels_like: number;
+    grnd_level: number;
+    humidity: number;
+    pressure: number;
+    sea_level: number;
+    temp: number;
+    temp_kf: number;
+    temp_max: number;
+    temp_min: number;
   }
   
   export interface Temperature {
