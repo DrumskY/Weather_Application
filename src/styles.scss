@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,body {
+    background-color: rgb(11, 19, 30);
+    // font-family: Gelion, Helvetica, "Helvetica Neue", Arial;
+    font-family: "Rubik" sans-serif;
+}
