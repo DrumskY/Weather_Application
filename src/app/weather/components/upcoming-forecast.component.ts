@@ -1,4 +1,4 @@
-import { NgFor } from "@angular/common";
+import { NgFor, NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { DailyForecast } from "../types/ForecastType";
 import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
@@ -6,10 +6,10 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
 @Component({
     selector: 'app-upcoming-forecast',
     standalone: true,
-    imports:[NgFor, FormatDateTimePipe],
+    imports:[NgIf, NgFor, FormatDateTimePipe],
     template: `
         <h1 class="pl-4 subtitles color-grey">Upcomming Forecast</h1>
-        <div class="flex flex-row justify-between items-center h-5/6 flex-nowrap">
+        <div class="flex flex-row justify-between items-center h-5/6 flex-nowrap" *ngIf="upcomingForecast.length!=0">
             <div *ngFor="let forecast of upcomingForecast; let last = last" class="flex flex-col justify-center items-center p-4">
                 <div>
                     <span class="block subtitles color-grey">{{ forecast.dt_txt | formatDateTime }}</span>
@@ -21,6 +21,9 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
                     <span>{{ forecast.main.temp }}°C</span>
                 </div>
             </div>
+        </div>
+        <div class="flex flex-row justify-center items-center h-5/6" *ngIf="upcomingForecast.length===0">
+            <p class="block titles color-grey">No upcoming weather forecast!</p>
         </div>
         
     `,

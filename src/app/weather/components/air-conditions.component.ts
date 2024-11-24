@@ -7,7 +7,7 @@ import { Component, Input } from "@angular/core";
     template: `
         <div class="flex justify-between">
             <h1 class="pl-4 titles color-grey">Air Conditions</h1>
-            <button class="pr-4">See more</button>
+            <button class="see-more-button pr-4 bg-blue-500 hover:bg-blue-700 color-grey font-bold py-2 px-4 rounded-full">See more</button>
         </div>
         <div class="flex flex-row justify-between pl-10 pr-10 items-center h-5/6">
             <div class="flex flex-col">
@@ -18,14 +18,14 @@ import { Component, Input } from "@angular/core";
                 <div class="flex flex-col">
                     <div class="flex">
                         <i class="fa-solid fa-droplet color-grey pt-2 pr-2" style="font-size: 30px;"></i>
-                        <div><p class="titles color-grey">Chance to rain</p><p class="subtitles color-white">{{chanceToRain}} km/h</p></div>
+                        <div><p class="titles color-grey">Chance to rain</p><p class="subtitles color-white">{{chanceToRain}} %</p></div>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col">
                 <div class="flex">
                     <i class="fa-solid fa-wind color-grey pt-2 pr-2" style="font-size: 30px;"></i>
-                    <div><p class="titles color-grey">Wind</p><p class="subtitles color-white">{{wind}}%</p></div>
+                    <div><p class="titles color-grey">Wind</p><p class="subtitles color-white">{{wind}} km/h</p></div>
                 </div>
                 <div class="flex flex-col">
                     <div class="flex">
@@ -55,6 +55,9 @@ import { Component, Input } from "@angular/core";
             font-weight: 700;
             font-size: 40px;
             line-height: 46px;
+        }
+        .see-more-button:hover {
+            color: #D1D5DB
         }`
     ]
 })

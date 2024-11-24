@@ -1,5 +1,5 @@
 import { NgFor } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DayAbbreviationPipe } from "../../pipes/day-abbreviation.pipe";
 import { DailyForecast } from "../types/ForecastType";
 
@@ -8,34 +8,54 @@ import { DailyForecast } from "../types/ForecastType";
     standalone: true,
     imports:[NgFor, DayAbbreviationPipe],
     template: `
-        <div *ngFor="let forecast of weekForecast; let last = last" class="flex items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
-            <div class="w-1/3">
-                <span class="block subtitles color-grey">{{ forecast.dt_txt | dayAbbreviation }}</span>
-            </div>
-            <div class="flex items-center gap-2 w-1/3 justify-center">
-                <!-- <img [src]="getIcon(forecast.weather[0].icon)" alt="Weather Icon"  /> -->
-                <span class="subtitles color-white">{{ forecast.weather[0].main }}</span>
-            </div>
-            <div class="subtitles color-white w-1/3 text-right">
-                <span>{{ forecast.main.temp }}°C</span>
+       <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey">5-Day Forecast</h1>
+        <div class="space-y-4 flex flex-col justify-between h-full p-10">
+            <div *ngFor="let forecast of weekForecast; let last = last" (click)="findForecastIndex(forecast)" class="cursor-pointer forecast-day flex items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
+                <div class="w-1/3">
+                    <span class="block subtitles color-grey">{{ forecast.dt_txt | dayAbbreviation }}</span>
+                </div>
+                <div class="flex items-center gap-2 w-1/3 justify-center">
+                    <img [src]="getIcon(forecast.weather[0].icon)" alt="Weather Icon"  />
+                    <span class="subtitles color-white">{{ forecast.weather[0].main }}</span>
+                </div>
+                <div class="subtitles color-white w-1/3 text-right">
+                    <span>{{ forecast.main.temp }}°C</span>
+                </div>
             </div>
         </div>
     `,
+    styles:[`
+        .titles {
+            font-family: "Rubik" sans-serif;
+            font-weight: 700;
+            font-size: 40px;
+            line-height: 46px;
+        }
+        .color-white {
+            color: #D1D5DB;
+        }
+        .color-grey {
+            color: #4B5563;
+        }
+        .subtitles {
+            font-family: "Rubik" sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 46px;
+        }
+        .forecast-day:hover div span {
+            color: #D1D5DB;
+        }
+    `],
 })
 export class WeekForecastComponent {
-    @Input() weekForecast: DailyForecast[] = []
-    // private weatherService = inject(WeatherApiService)
-    // public name: any
-    // public location: { latitude: number; longitude: number } | null = null;
-    // listState: ComponentListState<WeatherForecast> = { state: LIST_STATE_VALUE.IDLE };
-    // listStateValue = LIST_STATE_VALUE;
-    // weatherIcon: string = ''
-    // weekForecast: DailyForecast[] = [];
+    @Input() forecastList: DailyForecast[] = []
+    @Output() forecastIndex = new EventEmitter<number>()
+    public weekForecast: DailyForecast[] = []
 
     ngOnInit() {
-        // this.weekForecast = this.getWeekForcast()
+        this.weekForecast = this.getWeekForcast(this.forecastList)
     }
-
 
     getWeekForcast(list: DailyForecast[]): DailyForecast[] {
         const result: DailyForecast[] = [];
@@ -64,5 +84,16 @@ export class WeekForecastComponent {
         }
     
         return result;
-      }
+    }
+    
+    getIcon(iconCode: string): string {
+        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    }
+
+    findForecastIndex(forecast: DailyForecast) {
+        let findForecast: number = this.forecastList.findIndex((item) => {
+            return item.dt_txt === forecast.dt_txt;
+        });
+        this.forecastIndex.emit(findForecast)
+    }
 }

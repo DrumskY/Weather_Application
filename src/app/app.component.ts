@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { WeatherApiService } from './weather/services/weather.service';
+import { SearchInputComponent } from "./weather/ui/search-input.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, SearchInputComponent],
   template: `
     <div class="flex h-screen p-4 gap-4">
       <div class="bg-[rgb(32,43,59)] rounded-lg  w-[6rem]">
@@ -26,7 +27,8 @@ import { WeatherApiService } from './weather/services/weather.service';
       
       <div class="flex flex-col w-full gap-4">
         <div class="bg-[rgb(32,43,59)] rounded-lg p-2 pl-4 w-1/2">
-          <input type="text" placeholder="Search for cities" class="search-input">
+           <app-search-input
+           ></app-search-input>
         </div>
         <div class="flex-1 overflow-hidden">
           <router-outlet></router-outlet>
@@ -48,18 +50,6 @@ import { WeatherApiService } from './weather/services/weather.service';
     }  
     .nav-element:hover {
       color: #D1D5DB;
-    } 
-    .search-input {
-      background: transparent;
-      border: none;
-      color: #D1D5DB;
-      font-size: 16px;
-      outline: none; 
-      width: 100%
-    }
-    .search-input::placeholder{
-      color: #D1D5DB;
-      opacity: 0.7
     }
   `],
 })
