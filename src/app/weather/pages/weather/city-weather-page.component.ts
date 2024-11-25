@@ -9,11 +9,12 @@ import { AirConditionsComponent } from "../../components/air-conditions.componen
 import { WeekForecastComponent } from "../../components/week-forecast.component";
 import { SearchService } from "../../services/search.service";
 import { SearchInputComponent } from "../../ui/search-input.component";
+import { SeeMoreComponent } from "../../components/see-more.component";
 
 @Component({
     selector: 'app-city-weather-page',
     standalone: true,
-    imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent],
+    imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent, SeeMoreComponent],
     templateUrl: './city-weather-page.component.html',
     styleUrl: './city-weather-page.component.scss'
 })
@@ -25,6 +26,7 @@ export class CityWeatherPageComponent {
     public listState: ComponentListState<WeatherForecast> = { state: LIST_STATE_VALUE.IDLE };
     public listStateValue = LIST_STATE_VALUE;
     public selectForecastDay: number = 0;
+    public showMoreContent = false;
 
     ngOnInit(): void {
         this.getLocation()
@@ -39,11 +41,17 @@ export class CityWeatherPageComponent {
     performSearch(query: string): void {
       this.weatherService.getCityDetails(query).subscribe((response: CityDetailsType[])=>{
         this.getForecastWeatherData(response[0].lat, response[0].lon)
+        this.showMoreContent = false
       })
     }
 
     handleForecastIndex(index: number): void {
       this.selectForecastDay = index
+      this.showMoreContent = false
+    }
+
+    handleSeeMore(): void {
+      this.showMoreContent = true
     }
 
     getLocation(): void {

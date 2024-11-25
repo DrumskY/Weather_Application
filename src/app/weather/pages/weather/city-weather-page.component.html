@@ -21,23 +21,52 @@
         </div>
       </div>
 
-      <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
-        <app-upcoming-forecast
-          [upcomingForecast]="listState.resultObj.list | slice:selectForecastDay:selectForecastDay + 6"
-        ></app-upcoming-forecast>
-      </div>
+      <ng-container *ngIf="showMoreContent">
+        <div class="flex-1">
+          <app-see-more
+            [realFell]="listState.resultObj.list[selectForecastDay].main.feels_like"
+            [chanceToRain]="getRainChance(listState.resultObj.list[selectForecastDay].rain)"
+            [wind]="listState.resultObj.list[selectForecastDay].wind.speed"
+            [pressure]="listState.resultObj.list[selectForecastDay].main.pressure"
+            [visibility]="listState.resultObj.list[selectForecastDay].visibility"
+            [sunset]="listState.resultObj.city.sunset"
+            [sunrise]="listState.resultObj.city.sunrise"
+            [humidity]="listState.resultObj.list[selectForecastDay].main.humidity"
+            [cloudiness]="listState.resultObj.list[selectForecastDay].clouds.all"
+            [weather]="listState.resultObj.list[selectForecastDay].weather[0].description"
+          ></app-see-more>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!showMoreContent">
+        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+          <app-upcoming-forecast
+            [upcomingForecast]="listState.resultObj.list | slice:selectForecastDay:selectForecastDay + 6"
+          ></app-upcoming-forecast>
+        </div>
+      </ng-container>
   
-      <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
-        <app-air-conditions
-          [realFell]="listState.resultObj.list[selectForecastDay].main.feels_like"
-          [chanceToRain]="getRainChance(listState.resultObj.list[selectForecastDay].rain)"
-          [wind]="listState.resultObj.list[selectForecastDay].wind.speed"
-          [pressure]="listState.resultObj.list[selectForecastDay].main.pressure"
-        ></app-air-conditions>
-      </div>
+      <ng-container *ngIf="!showMoreContent">
+        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+          <app-air-conditions
+            [realFell]="listState.resultObj.list[selectForecastDay].main.feels_like"
+            [chanceToRain]="getRainChance(listState.resultObj.list[selectForecastDay].rain)"
+            [wind]="listState.resultObj.list[selectForecastDay].wind.speed"
+            [pressure]="listState.resultObj.list[selectForecastDay].main.pressure"
+            (seeMoreClicked)="handleSeeMore()"
+          ></app-air-conditions>
+        </div>
+      </ng-container>
     </div>
   
-    <div class=" bg-gray-800 rounded-lg p-4 flex flex-[1]">
+    <div class=" bg-gray-800 rounded-lg p-4 flex-col flex-[1]">
+      <ng-container *ngIf="showMoreContent">
+        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1 gap-4">
+          <app-upcoming-forecast
+            [upcomingForecast]="listState.resultObj.list | slice:selectForecastDay:selectForecastDay + 3"
+          ></app-upcoming-forecast>
+        </div>
+      </ng-container>
       <app-week-forecast
         class="w-full"
         [forecastList]="listState.resultObj.list"

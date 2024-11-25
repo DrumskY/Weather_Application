@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: 'app-air-conditions',
@@ -7,7 +7,7 @@ import { Component, Input } from "@angular/core";
     template: `
         <div class="container flex justify-between item-center flex-wrap">
             <h1 class="pl-4 titles color-grey">Air Conditions</h1>
-            <button class="see-more-button pr-4 bg-blue-500 hover:bg-blue-700 color-grey font-bold py-2 px-4 rounded-full">See more</button>
+            <button (click)="onSeeMoreClick()" class="see-more-button pr-4 bg-blue-500 hover:bg-blue-700 color-grey font-bold py-2 px-4 rounded-full">See more</button>
         </div>
         <div class="flex flex-row flex-wrap justify-between pl-10 pr-10 items-center h-5/6">
             <div class="flex flex-col">
@@ -75,4 +75,9 @@ export class AirConditionsComponent {
     @Input() chanceToRain: number = 0;
     @Input() wind: number = 0;
     @Input() pressure: number = 0;
+    @Output() seeMoreClicked = new EventEmitter<void>();
+
+    onSeeMoreClick() {
+        this.seeMoreClicked.emit();
+    }
 }

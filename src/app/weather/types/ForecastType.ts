@@ -13,6 +13,8 @@ export interface WeatherForecast {
     country: string;
     population: number;
     timezone: number;
+    sunrise: number;
+    sunset: number;
   }
   
   export interface Coord {
@@ -31,10 +33,13 @@ export interface WeatherForecast {
     pressure: number;
     humidity: number;
     weather: Weather[];
+    visibility: number;
     speed: number;
     deg: number;
     gust: number;
-    clouds: number;
+    clouds: {
+      all: number;
+    };
     pop: number;
     rain?: {
       [key: string]: string;
