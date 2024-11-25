@@ -1,0 +1,47 @@
+  <div class="router-container flex flex-row flex-wrap gap-4 h-full" *ngIf="listState.state === listStateValue.SUCCESS">
+    <div class="flex flex-col gap-4 flex-[2]">
+        <app-search-input></app-search-input>
+      <div class="weather-info-container rounded-lg p-4 flex flex-wrap justify-between items-center flex-1">
+        <div class="p-2 flex flex-col">
+          <div>
+            <p class="titles color-white">{{ listState.resultObj.city.name }}</p>
+            <sup class="subtitles color-grey">
+              Chance to rain: {{ getRainChance(listState.resultObj.list[selectForecastDay].rain) }}%
+            </sup>
+          </div>
+          <div *ngIf="listState.resultObj.list && listState.resultObj.list[selectForecastDay].main">
+            <p class="titles color-white">{{ listState.resultObj.list[selectForecastDay].main.temp }}°C</p>
+          </div>
+        </div>
+        <div class="p-2 flex justify-center items-center">
+          <img
+            [src]="getIcon(listState.resultObj.list[selectForecastDay].weather[0].icon)"
+            alt="Weather Icon"
+          />
+        </div>
+      </div>
+
+      <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+        <app-upcoming-forecast
+          [upcomingForecast]="listState.resultObj.list | slice:selectForecastDay:selectForecastDay + 6"
+        ></app-upcoming-forecast>
+      </div>
+  
+      <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+        <app-air-conditions
+          [realFell]="listState.resultObj.list[selectForecastDay].main.feels_like"
+          [chanceToRain]="getRainChance(listState.resultObj.list[selectForecastDay].rain)"
+          [wind]="listState.resultObj.list[selectForecastDay].wind.speed"
+          [pressure]="listState.resultObj.list[selectForecastDay].main.pressure"
+        ></app-air-conditions>
+      </div>
+    </div>
+  
+    <div class=" bg-gray-800 rounded-lg p-4 flex flex-[1]">
+      <app-week-forecast
+        class="w-full"
+        [forecastList]="listState.resultObj.list"
+        (forecastIndex)="handleForecastIndex($event)"
+      ></app-week-forecast>
+    </div>
+  </div>

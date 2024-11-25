@@ -6,12 +6,14 @@ import { SearchService } from "../services/search.service";
     standalone: true,
     imports:[],
     template: `
+    <div class="bg-[rgb(32,43,59)] rounded-lg p-2 pl-4">
         <input 
             type="text" 
             placeholder="Search for cities" 
             class="search-input" 
             (keyup.enter)="emitInputValue($event)"
         />
+    </div>
     `,
     styles:[`
         .search-input {
@@ -20,7 +22,8 @@ import { SearchService } from "../services/search.service";
             color: #D1D5DB;
             font-size: 16px;
             outline: none; 
-            width: 100%
+            width: 100%;
+            box-sizing: border-box;
         }
         .search-input::placeholder{
             color: #D1D5DB;

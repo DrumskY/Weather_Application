@@ -9,7 +9,7 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
     imports:[NgIf, NgFor, FormatDateTimePipe],
     template: `
         <h1 class="pl-4 subtitles color-grey">Upcomming Forecast</h1>
-        <div class="flex flex-row justify-between items-center h-5/6 flex-nowrap" *ngIf="upcomingForecast.length!=0">
+        <div class="upcoming-forecast-container flex flex-row justify-between items-center h-5/6 flex-wrap gap-1" *ngIf="upcomingForecast.length!=0">
             <div *ngFor="let forecast of upcomingForecast; let last = last" class="flex flex-col justify-center items-center p-4">
                 <div>
                     <span class="block subtitles color-grey">{{ forecast.dt_txt | formatDateTime }}</span>
@@ -45,6 +45,11 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
             font-weight: 600;
             font-size: 20px;
             line-height: 46px;
+        }
+        @media screen and (max-width: 500px) {
+            .upcoming-forecast-container {
+                justify-content: center
+            }
         }`
     ]
 })

@@ -9,16 +9,16 @@ import { DailyForecast } from "../types/ForecastType";
     imports:[NgFor, DayAbbreviationPipe],
     template: `
        <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey">5-Day Forecast</h1>
-        <div class="space-y-4 flex flex-col justify-between h-full p-10">
-            <div *ngFor="let forecast of weekForecast; let last = last" (click)="findForecastIndex(forecast)" class="cursor-pointer forecast-day flex items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
-                <div class="w-1/3">
+        <div class="space-y-4 flex flex-col justify-between  p-10">
+            <div *ngFor="let forecast of weekForecast; let last = last" (click)="findForecastIndex(forecast)" class="forecast-container cursor-pointer forecast-day flex flex-wrap items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
+                <div class="">
                     <span class="block subtitles color-grey">{{ forecast.dt_txt | dayAbbreviation }}</span>
                 </div>
-                <div class="flex items-center gap-2 w-1/3 justify-center">
+                <div class="flex flex-wrap items-center gap-2  justify-center">
                     <img [src]="getIcon(forecast.weather[0].icon)" alt="Weather Icon"  />
                     <span class="subtitles color-white">{{ forecast.weather[0].main }}</span>
                 </div>
-                <div class="subtitles color-white w-1/3 text-right">
+                <div class="subtitles color-white text-right">
                     <span>{{ forecast.main.temp }}°C</span>
                 </div>
             </div>
@@ -45,6 +45,13 @@ import { DailyForecast } from "../types/ForecastType";
         }
         .forecast-day:hover div span {
             color: #D1D5DB;
+            text-shadow: 1px 1px 2px #000, 0 0 1em #000, 0 0 0.2em #000;
+            font-size: 21px;
+        }
+        @media screen and (max-width: 500px) {
+            .forecast-container {
+                justify-content: center
+            }
         }
     `],
 })

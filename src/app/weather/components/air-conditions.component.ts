@@ -5,11 +5,11 @@ import { Component, Input } from "@angular/core";
     standalone: true,
     imports:[],
     template: `
-        <div class="flex justify-between">
+        <div class="container flex justify-between item-center flex-wrap">
             <h1 class="pl-4 titles color-grey">Air Conditions</h1>
             <button class="see-more-button pr-4 bg-blue-500 hover:bg-blue-700 color-grey font-bold py-2 px-4 rounded-full">See more</button>
         </div>
-        <div class="flex flex-row justify-between pl-10 pr-10 items-center h-5/6">
+        <div class="flex flex-row flex-wrap justify-between pl-10 pr-10 items-center h-5/6">
             <div class="flex flex-col">
                 <div class="flex">
                     <i class="fa-solid fa-temperature-three-quarters color-grey pt-2 pr-2" style="font-size: 30px;"></i>
@@ -57,7 +57,16 @@ import { Component, Input } from "@angular/core";
             line-height: 46px;
         }
         .see-more-button:hover {
-            color: #D1D5DB
+            color: #D1D5DB;
+            box-shadow: 1px 1px 2px #000, 0 0 1em #000, 0 0 0.2em #000;
+        }
+        @media screen and (max-width: 400px) {
+            .subtitles {
+                font-size: 20px;
+            }
+            .container {
+                justify-content: center
+            }
         }`
     ]
 })

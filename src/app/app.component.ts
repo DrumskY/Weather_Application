@@ -1,38 +1,30 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { WeatherApiService } from './weather/services/weather.service';
-import { SearchInputComponent } from "./weather/ui/search-input.component";
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SearchInputComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `
-    <div class="flex h-screen p-4 gap-4">
-      <div class="bg-[rgb(32,43,59)] rounded-lg  w-[6rem]">
+    <div class="main-container flex flex-wrap lg:flex-nowrap p-4 gap-4 max-w-screen h-screen overflow-auto">
+      <div class="bg-[rgb(32,43,59)] rounded-lg w-[6rem] menu-container">
         <div class="flex flex-col gap-6">
           <div class="text-center nav-element-logo pt-3 pb-3">
             <i class="fa-solid fa-cloud-sun"></i>
           </div>
-          <div class="flex flex-col text-center nav-element">
+          <div class="flex flex-col text-center nav-element" routerLink="/weather" >
             <i class="fa-solid fa-cloud-sun-rain"></i>
-            <a routerLink="/tasks" routerLinkActive="font-bold">Weather</a>
+            <span routerLinkActive="font-bold">Weather</span>
           </div>
-          <div class="flex flex-col text-center nav-element">
+          <div class="flex flex-col text-center nav-element" routerLink="/cities">
             <i class="fa-solid fa-list-check"></i>
-            <a routerLink="/tasks" routerLinkActive="font-bold">Cities</a>
+            <span routerLinkActive="font-bold">Cities</span>
           </div>
         </div>
       </div>
       
-      <div class="flex flex-col w-full gap-4">
-        <div class="bg-[rgb(32,43,59)] rounded-lg p-2 pl-4 w-1/2">
-           <app-search-input
-           ></app-search-input>
-        </div>
-        <div class="flex-1 overflow-hidden">
+      <div class=" flex-1">
           <router-outlet></router-outlet>
-        </div>
       </div>
     </div>
   `,
@@ -51,8 +43,23 @@ import { SearchInputComponent } from "./weather/ui/search-input.component";
     .nav-element:hover {
       color: #D1D5DB;
     }
+    @media screen and (max-width:1200px) {
+      .router-container div {
+          width: 100%;
+      }
+    }
+    @media screen and (max-width:485px) {
+      .menu-container {
+          width: 100%;
+      }
+    }
   `],
 })
 export class AppComponent {
   title = 'Weather Application';
+  private router = inject(Router);
+
+  constructor() {
+    this.router.navigateByUrl;
+  }
 }

@@ -1,18 +1,19 @@
 import { Component, inject } from "@angular/core";
-import { WeatherApiService } from "../services/weather.service";
+import { WeatherApiService } from "../../services/weather.service";
 import { CommonModule, NgIf } from "@angular/common";
-import { ComponentListState, LIST_STATE_VALUE } from "../../utils/list-state.type";
-import { WeatherForecast } from "../types/ForecastType";
-import { CityDetailsType } from "../types/CityDetailsType";
-import { UpcomingForecastComponent } from "../components/upcoming-forecast.component";
-import { AirConditionsComponent } from "../components/air-conditions.component";
-import { WeekForecastComponent } from "../components/week-forecast.component";
-import { SearchService } from "../services/search.service";
+import { ComponentListState, LIST_STATE_VALUE } from "../../../utils/list-state.type";
+import { WeatherForecast } from "../../types/ForecastType";
+import { CityDetailsType } from "../../types/CityDetailsType";
+import { UpcomingForecastComponent } from "../../components/upcoming-forecast.component";
+import { AirConditionsComponent } from "../../components/air-conditions.component";
+import { WeekForecastComponent } from "../../components/week-forecast.component";
+import { SearchService } from "../../services/search.service";
+import { SearchInputComponent } from "../../ui/search-input.component";
 
 @Component({
     selector: 'app-city-weather-page',
     standalone: true,
-    imports:[NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule ],
+    imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent],
     templateUrl: './city-weather-page.component.html',
     styleUrl: './city-weather-page.component.scss'
 })
@@ -43,7 +44,6 @@ export class CityWeatherPageComponent {
 
     handleForecastIndex(index: number): void {
       this.selectForecastDay = index
-      console.log(index)
     }
 
     getLocation(): void {
@@ -73,7 +73,6 @@ export class CityWeatherPageComponent {
               state: LIST_STATE_VALUE.ERROR,
               error: err,
             };
-            console.log(this.listState)
           },
         })
       }
