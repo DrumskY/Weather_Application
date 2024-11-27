@@ -20,6 +20,10 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
             <i class="fa-solid fa-list-check"></i>
             <span routerLinkActive="font-bold">Cities</span>
           </div>
+          <div class="flex flex-col text-center nav-element" routerLink="/map">
+            <i class="fa-solid fa-map"></i>
+            <span routerLinkActive="font-bold">Map</span>
+          </div>
         </div>
       </div>
       
