@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: 'app-air-conditions',
+    imports: [],
     standalone: true,
-    imports:[],
     template: `
         <div class="container flex justify-between item-center flex-wrap">
             <h1 class="pl-4 titles color-grey">Air Conditions</h1>
@@ -37,7 +37,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
         </div>
         
     `,
-    styles:[
+    styles: [
         `.titles {
             font-family: "Rubik" sans-serif;
             font-weight: 600;

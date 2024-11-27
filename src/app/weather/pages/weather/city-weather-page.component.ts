@@ -14,8 +14,8 @@ import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-city-weather-page',
-    standalone: true,
     imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent, SeeMoreComponent],
+    standalone: true,
     templateUrl: './city-weather-page.component.html',
     styleUrl: './city-weather-page.component.scss'
 })
@@ -67,18 +67,30 @@ export class CityWeatherPageComponent {
       this.showMoreContent = true
     }
 
-    getLocation(): void {
+    async getLocation(): Promise<void> {
+      try {
         this.listState = { state: LIST_STATE_VALUE.LOADING };
-        this.weatherService.getCurrentLocation()
-          .then(position => {
-            this.getForecastWeatherData(position.coords.latitude, position.coords.longitude)
-          })
-          .catch(error => {
-            this.weatherService.getCityDetails('Chicago').subscribe((response: CityDetailsType[])=>{
-                this.getForecastWeatherData(response[0].lat, response[0].lon)
-            })
-          });
+    
+        const position = await this.weatherService.getCurrentLocation();
+    
+        await this.getForecastWeatherData(position.coords.latitude, position.coords.longitude);
+      } catch (error) {
+        console.warn('Nie udało się uzyskać lokalizacji użytkownika.', error);
+    
+        try {
+          const response = await this.weatherService.getCityDetails('Chicago').toPromise();
+    
+          if (response && response.length > 0) {
+            const chicagoDetails = response[0];
+            await this.getForecastWeatherData(chicagoDetails.lat, chicagoDetails.lon);
+          } else {
+            console.error('Nie udało się pobrać danych o mieście');
+          }
+        } catch (cityError) {
+          console.error('Wystąpił błąd podczas ładowania danych dla miasta', cityError);
+        }
       }
+    }
 
       getForecastWeatherData(lat: number, lon: number): void {
         this.weatherService.getForecastWeatherData(String(lat), String(lon)).subscribe({
@@ -103,12 +115,9 @@ export class CityWeatherPageComponent {
       }
 
       getRainChance(rain?: { [key: string]: string }): number {
-        // Jeśli rain jest undefined lub pusty, zwróć '0'
         if (!rain || Object.keys(rain).length === 0) {
           return 0;
         }
-  
-        // Jeśli rain zawiera dane, zwróć wartość pierwszego klucza
         const firstKey = Object.keys(rain)[0];
         const percent = Number(rain[firstKey]) * 100
         const percentToFixed = Number(percent.toFixed(0))

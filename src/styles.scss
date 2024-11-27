@@ -1,13 +1,22 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+// html {
+//   @include mat.theme((
+//     color: (
+//       theme-type: light,
+//       primary: mat.$azure-palette,
+//       tertiary: mat.$blue-palette,
+//     ),
+//     typography: Roboto,
+//     density: 0,
+//   ));
+// }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-// html,body {
-//     background-color: rgb(11, 19, 30);
-//     font-family: "Rubik", sans-serif;
-//     margin: 0;
-//     padding: 0;
-// }
 
 html, body {
     background-color: rgb(11, 19, 30);

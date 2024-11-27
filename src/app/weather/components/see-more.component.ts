@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 @Component({
     selector: 'app-see-more',
     standalone: true,
-    imports:[],
     template: `
     <div class="flex flex-col gap-4 ">
         <div class="flex flex-row flex-wrap justify-between items-center gap-4">
@@ -72,7 +71,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
         </div>
     </div>
     `,
-    styles:[
+    styles: [
         `.titles {
             font-family: "Rubik" sans-serif;
             font-weight: 600;

@@ -2,10 +2,10 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
-  template: `
+    selector: 'app-root',
+    imports: [RouterOutlet, RouterLink, RouterLinkActive],
+    standalone: true,
+    template: `
     <div class="main-container flex flex-wrap lg:flex-nowrap p-4 gap-4 max-w-screen h-screen overflow-auto">
       <div class="bg-[rgb(32,43,59)] rounded-lg w-[6rem] menu-container">
         <div class="flex flex-col gap-6">
@@ -20,10 +20,6 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
             <i class="fa-solid fa-list-check"></i>
             <span routerLinkActive="font-bold">Cities</span>
           </div>
-          <div class="flex flex-col text-center nav-element" routerLink="/map">
-            <i class="fa-solid fa-map"></i>
-            <span routerLinkActive="font-bold">Map</span>
-          </div>
         </div>
       </div>
       
@@ -32,7 +28,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .nav-element-logo {
       font-weight: bold;
       font-size:35px;
@@ -57,7 +53,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
           width: 100%;
       }
     }
-  `],
+  `]
 })
 export class AppComponent {
   title = 'Weather Application';

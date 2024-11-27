@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
     selector: 'app-city-card-item',
+    imports: [],
     standalone: true,
-    imports:[],
     template: `
         <div class="flex flex-row justify-between item-center flex-wrap  rounded-lg gap-4 p-4 cursor-pointer"
             [class.container-not-clicked]="!isClicked"
@@ -24,7 +24,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
         </div>
         
     `,
-    styles:[
+    styles: [
         `.titles {
             font-family: "Rubik" sans-serif;
             font-weight: 600;

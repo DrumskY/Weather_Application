@@ -5,8 +5,8 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
 
 @Component({
     selector: 'app-upcoming-forecast',
+    imports: [NgIf, NgFor, FormatDateTimePipe],
     standalone: true,
-    imports:[NgIf, NgFor, FormatDateTimePipe],
     template: `
         <h1 class="pl-4 subtitles color-grey">Upcomming Forecast</h1>
         <div class="upcoming-forecast-container flex flex-row justify-between items-center h-5/6 flex-wrap gap-1" *ngIf="upcomingForecast.length!=0">
@@ -27,7 +27,7 @@ import { FormatDateTimePipe } from "../../pipes/format-date-time.pipe";
         </div>
         
     `,
-    styles:[
+    styles: [
         `.titles {
             font-family: "Rubik" sans-serif;
             font-weight: 700;

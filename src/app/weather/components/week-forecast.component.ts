@@ -5,8 +5,8 @@ import { DailyForecast } from "../types/ForecastType";
 
 @Component({
     selector: 'app-week-forecast',
+    imports: [NgIf, NgFor, DayAbbreviationPipe],
     standalone: true,
-    imports:[NgIf, NgFor, DayAbbreviationPipe],
     template: `
        <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey" *ngIf="!limitToThree">5-Day Forecast</h1>
        <h1 class="text-white text-lg font-semibold mb-4 pl-5 pt-5 subtitles color-grey" *ngIf="limitToThree">3-Day Forecast</h1>
@@ -26,7 +26,7 @@ import { DailyForecast } from "../types/ForecastType";
             </div>
         </div>
     `,
-    styles:[`
+    styles: [`
         .titles {
             font-family: "Rubik" sans-serif;
             font-weight: 700;
@@ -58,7 +58,7 @@ import { DailyForecast } from "../types/ForecastType";
                 justify-content: center
             }
         }
-    `],
+    `]
 })
 export class WeekForecastComponent {
     @Input() forecastList: DailyForecast[] = []

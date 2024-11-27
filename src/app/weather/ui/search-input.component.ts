@@ -4,7 +4,6 @@ import { SearchService } from "../services/search.service";
 @Component({
     selector: 'app-search-input',
     standalone: true,
-    imports:[],
     template: `
     <div class="bg-[rgb(32,43,59)] rounded-lg p-2 pl-4">
         <input 
@@ -15,7 +14,7 @@ import { SearchService } from "../services/search.service";
         />
     </div>
     `,
-    styles:[`
+    styles: [`
         .search-input {
             background: transparent;
             border: none;
