@@ -1,14 +1,49 @@
-<div class="container flex flex-row w-full flex-wrap">
-    <div class="flex flex-col gap-4 w-1/2">
-        <div class="bg-gray-800 rounded-lg p-4">
-            1
-        </div>
-        <div class="bg-gray-800 rounded-lg p-4">
-            2
-        </div>
-        <div class="bg-gray-800 rounded-lg p-4">
-            3
+<div class="router-container flex flex-row justify-between flex-wrap gap-4 h-full" *ngIf="listState.state === listStateValue.ARRAY_SUCCESS">
+    <div class="flex flex-col gap-4 flex-[2]">
+        <app-search-input></app-search-input>
+        <div class="flex flex-col" *ngFor="let cityCard of listState.result let i = index">
+            <app-city-card-item
+                [cityName]="cityCard.city.name"
+                [icon]="getIcon(cityCard.list[0].weather[0].icon)"
+                [temp]="cityCard.list[0].main.temp.toFixed(0)"
+                [time]="getTimeFromTimezone(cityCard.city.timezone)"
+                (cardClicked)="onCardSelected(i)"
+                [isClicked]="selectedIndex === i"
+            ></app-city-card-item>
         </div>
     </div>
-    <div class="w-1/2">2</div>
+    <div class="flex flex-col flex-1 p-10 ">
+        <div class="flex flex-row justify-between item-center pb-5 flex-wrap">
+            <div class="flex flex-col justify-center">
+                <p class="titles color-white">{{ listState.result[selectedIndex].city.name }}</p>
+                <sup class="subtitles color-grey">
+                    Chance to rain: {{ getRainChance(listState.result[selectedIndex].list[0].rain) }}%
+                </sup>
+                <p class="titles color-white">{{ listState.result[selectedIndex].list[0].main.temp }}°C</p>
+            </div>
+            <div>
+                <img
+                    [src]="getIcon(listState.result[selectedIndex].list[0].weather[0].icon)"
+                    alt="Weather Icon"
+                />
+            </div>
+        </div>
+        
+        <hr />
+
+        <div class="pt-5">
+            <app-upcoming-forecast
+                [upcomingForecast]="listState.result[selectedIndex].list | slice: 0:3"
+            ></app-upcoming-forecast>
+        </div>
+
+        <hr />
+
+        <div>
+            <app-week-forecast
+                [forecastList]="listState.result[selectedIndex].list"
+                [limitToThree]="true"
+            ></app-week-forecast>
+        </div>
+    </div>
 </div>

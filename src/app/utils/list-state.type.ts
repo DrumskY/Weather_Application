@@ -9,10 +9,14 @@ type LoadingState = {
   state: LIST_STATE_VALUE["LOADING"];
 };
 // success
-type SuccessState<T> = {
+type SuccessStateObj<T> = {
   state: LIST_STATE_VALUE["SUCCESS"];
-  resultArray?: T[];
-  resultObj: T;
+  result: T;
+};
+
+type SuccessStateArray<T> = {
+  state: LIST_STATE_VALUE["ARRAY_SUCCESS"];
+  result: T[];
 };
 // error
 type ErrorState = {
@@ -26,6 +30,7 @@ export const LIST_STATE_VALUE = {
   IDLE: "IDLE",
   LOADING: "LOADING",
   SUCCESS: "SUCCESS",
+  ARRAY_SUCCESS: "ARRAY_SUCCESS",
   ERROR: "ERROR",
 } as const;
 
@@ -34,5 +39,6 @@ export type ListStateValue = keyof typeof LIST_STATE_VALUE;
 export type ComponentListState<T> =
   | IdleState
   | LoadingState
-  | SuccessState<T>
+  | SuccessStateObj<T>
+  | SuccessStateArray<T>
   | ErrorState;

@@ -8,12 +8,12 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
     <div class="flex flex-col gap-4 ">
         <div class="flex flex-row flex-wrap justify-between items-center gap-4">
             <div class="flex bg-gray-800 rounded-lg item-center pl-5 p-10 flex-1">
-                <i class="fa-solid fa-temperature-three-quarters color-grey pt-2 pr-2" style="font-size: 30px;"></i>
+                <i class="fa-solid fa-sun-plant-wilt color-grey pt-2 pr-2" style="font-size: 30px;"></i>
                 <div><p class="titles color-grey">Weather</p><p class="subtitles color-white">{{weather}}</p></div>
             </div>
             <div class="flex flex-col bg-gray-800 rounded-lg flex-1 pl-5 p-10">
                 <div class="flex item-center">
-                    <i class="fa-solid fa-wind color-grey pt-2 pr-2" style="font-size: 30px;"></i>
+                    <i class="fa-solid fa-cloud color-grey pt-2 pr-2" style="font-size: 30px;"></i>
                     <div><p class="titles color-grey">Cloudiness</p><p class="subtitles color-white">{{cloudiness}} %</p></div>
                 </div>
             </div>

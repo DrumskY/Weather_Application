@@ -1,6 +1,43 @@
+.titles {
+    font-family: "Rubik" sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 46px;
+}
+
+.color-white {
+    color: #D1D5DB;
+}
+
+.color-grey {
+    color: #4B5563;
+}
+
+.subtitles {
+    font-family: "Rubik" sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 46px;
+}
+
 @media screen and (max-width:1200px) {
     .container {
         flex-direction: column;
         width: 100%;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .titles {
+        font-size: 30px;
+    }
+
+    .subtitles {
+        font-size: 15px;
     }
 }

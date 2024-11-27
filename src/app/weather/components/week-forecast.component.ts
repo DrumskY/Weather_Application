@@ -1,16 +1,18 @@
-import { NgFor } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { NgFor, NgIf } from "@angular/common";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { DayAbbreviationPipe } from "../../pipes/day-abbreviation.pipe";
 import { DailyForecast } from "../types/ForecastType";
 
 @Component({
     selector: 'app-week-forecast',
     standalone: true,
-    imports:[NgFor, DayAbbreviationPipe],
+    imports:[NgIf, NgFor, DayAbbreviationPipe],
     template: `
-       <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey">5-Day Forecast</h1>
-        <div class="space-y-4 flex flex-col justify-between  p-10">
-            <div *ngFor="let forecast of weekForecast; let last = last" (click)="findForecastIndex(forecast)" class="forecast-container cursor-pointer forecast-day flex flex-wrap items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5">
+       <h1 class="text-white text-lg font-semibold mb-4 pl-10 pt-5 subtitles color-grey" *ngIf="!limitToThree">5-Day Forecast</h1>
+       <h1 class="text-white text-lg font-semibold mb-4 pl-5 pt-5 subtitles color-grey" *ngIf="limitToThree">3-Day Forecast</h1>
+        <div class="space-y-4 flex flex-col justify-between  p-5">
+            <div *ngFor="let forecast of weekForecast; let last = last" (click)="findForecastIndex(forecast)" class="forecast-container flex flex-wrap items-center justify-between border-b border-gray-700 pb-2 last:border-none h-1/5"
+                [class.forecast-day]="!limitToThree">
                 <div class="">
                     <span class="block subtitles color-grey">{{ forecast.dt_txt | dayAbbreviation }}</span>
                 </div>
@@ -43,6 +45,9 @@ import { DailyForecast } from "../types/ForecastType";
             font-size: 20px;
             line-height: 46px;
         }
+        .forecast-day {
+            cursor: pointer
+        }
         .forecast-day:hover div span {
             color: #D1D5DB;
             text-shadow: 1px 1px 2px #000, 0 0 1em #000, 0 0 0.2em #000;
@@ -57,17 +62,24 @@ import { DailyForecast } from "../types/ForecastType";
 })
 export class WeekForecastComponent {
     @Input() forecastList: DailyForecast[] = []
+    @Input() limitToThree: boolean = false
     @Output() forecastIndex = new EventEmitter<number>()
     public weekForecast: DailyForecast[] = []
 
     ngOnInit() {
-        this.weekForecast = this.getWeekForcast(this.forecastList)
+        this.weekForecast = this.getWeekForcast(this.forecastList, this.limitToThree)
     }
 
-    getWeekForcast(list: DailyForecast[]): DailyForecast[] {
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['forecastList'] || changes['limitToThree']) {
+          this.weekForecast = this.getWeekForcast(this.forecastList, this.limitToThree);
+        }
+      }
+
+    getWeekForcast(list: DailyForecast[], limitToThree: boolean): DailyForecast[] {
         const result: DailyForecast[] = [];
         const groupedByDate: { [date: string]: DailyForecast[] } = {};
-    
+      
         // Group entries by date
         list.forEach((entry) => {
           const date = entry.dt_txt.split(' ')[0]; // Extract date (YYYY-MM-DD)
@@ -76,7 +88,7 @@ export class WeekForecastComponent {
           }
           groupedByDate[date].push(entry);
         });
-    
+      
         // For each date, find the entry closest to 12:00
         for (const date in groupedByDate) {
           const entries = groupedByDate[date];
@@ -88,10 +100,17 @@ export class WeekForecastComponent {
             }
           }
           result.push(selectedEntry);
+      
+          // Jeśli limitToThree jest true i osiągnięto 3 elementy, przerwij pętlę
+          if (limitToThree && result.length === 3) {
+            break;
+          }
         }
-    
+
+        console.log(result)
+      
         return result;
-    }
+      }
     
     getIcon(iconCode: string): string {
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
