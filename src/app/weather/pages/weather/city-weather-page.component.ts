@@ -11,10 +11,12 @@ import { SearchService } from "../../services/search.service";
 import { SearchInputComponent } from "../../ui/search-input.component";
 import { SeeMoreComponent } from "../../components/see-more.component";
 import { Subscription } from "rxjs";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DefaultLoaderComponent } from "../../ui/default-loader.component";
 
 @Component({
     selector: 'app-city-weather-page',
-    imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent, SeeMoreComponent],
+    imports: [NgIf, UpcomingForecastComponent, AirConditionsComponent, WeekForecastComponent, CommonModule, SearchInputComponent, SeeMoreComponent, MatProgressSpinnerModule, DefaultLoaderComponent],
     standalone: true,
     templateUrl: './city-weather-page.component.html',
     styleUrl: './city-weather-page.component.scss'
@@ -32,7 +34,7 @@ export class CityWeatherPageComponent {
     public showMoreContent = false;
 
     ngOnInit(): void {
-        this.getLocation()
+        this.loadDefault()
         const searchSub = this.searchService.searchEvent$.subscribe(query => {
           if (query !== '') {
             this.performSearch(query);
@@ -67,39 +69,41 @@ export class CityWeatherPageComponent {
       this.showMoreContent = true
     }
 
-    async getLocation(): Promise<void> {
-      try {
-        this.listState = { state: LIST_STATE_VALUE.LOADING };
+
     
-        const position = await this.weatherService.getCurrentLocation();
-    
-        await this.getForecastWeatherData(position.coords.latitude, position.coords.longitude);
-      } catch (error) {
-        console.warn('Nie udało się uzyskać lokalizacji użytkownika.', error);
-    
-        try {
-          const response = await this.weatherService.getCityDetails('Chicago').toPromise();
-    
+    loadDefault(): void {
+      this.weatherService.getCityDetails('Chicago').subscribe((response: CityDetailsType[]) => {
           if (response && response.length > 0) {
-            const chicagoDetails = response[0];
-            await this.getForecastWeatherData(chicagoDetails.lat, chicagoDetails.lon);
+            const chicagoLat = response[0].lat;
+            const chicagoLon = response[0].lon;
+            this.getForecastWeatherData(chicagoLat, chicagoLon);
+            this.tryGetCurrentLocation(chicagoLat, chicagoLon);
           } else {
-            console.error('Nie udało się pobrać danych o mieście');
+            console.error('Could not load default location.');
           }
-        } catch (cityError) {
-          console.error('Wystąpił błąd podczas ładowania danych dla miasta', cityError);
-        }
-      }
+      });
+    }
+
+    tryGetCurrentLocation(defaultLat: number, defaultLon: number): void {
+      this.weatherService.getCurrentLocation()
+        .then(position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            this.getForecastWeatherData(lat, lon); // Override with current location
+        })
+        .catch(error => {
+            console.warn('Could not get current location, using default');
+        });
     }
 
       getForecastWeatherData(lat: number, lon: number): void {
+        this.listState = { state: LIST_STATE_VALUE.LOADING };
         this.weatherService.getForecastWeatherData(String(lat), String(lon)).subscribe({
           next: (response) => {
             this.listState = {
               state: LIST_STATE_VALUE.SUCCESS,
               result: response,
             };
-            console.log(this.listState)
           },
           error: (err) => {
             this.listState = {

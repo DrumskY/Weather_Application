@@ -1,7 +1,8 @@
-  <div class="router-container flex flex-row flex-wrap gap-4 h-full" *ngIf="listState.state === listStateValue.SUCCESS">
+  <div class="router-container flex flex-row flex-wrap gap-4 h-full">
     <div class="flex flex-col gap-4 flex-[2]">
-        <app-search-input></app-search-input>
-      <div class="weather-info-container rounded-lg p-4 flex flex-wrap justify-between items-center flex-1">
+      <app-search-input></app-search-input>
+      <app-default-loader *ngIf="listState.state === listStateValue.LOADING"></app-default-loader>
+      <div class="weather-info-container rounded-lg p-4 flex flex-wrap justify-between items-center flex-1" *ngIf="listState.state === listStateValue.SUCCESS">
         <div class="p-2 flex flex-col">
           <div>
             <p class="titles color-white">{{ listState.result.city.name }}</p>
@@ -22,7 +23,7 @@
       </div>
 
       <ng-container *ngIf="showMoreContent">
-        <div class="flex-1">
+        <div class="flex-1" *ngIf="listState.state === listStateValue.SUCCESS">
           <app-see-more
             [realFell]="listState.result.list[selectForecastDay].main.feels_like"
             [chanceToRain]="getRainChance(listState.result.list[selectForecastDay].rain)"
@@ -39,7 +40,7 @@
       </ng-container>
 
       <ng-container *ngIf="!showMoreContent">
-        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1" *ngIf="listState.state === listStateValue.SUCCESS">
           <app-upcoming-forecast
             [upcomingForecast]="listState.result.list | slice:selectForecastDay:selectForecastDay + 6"
           ></app-upcoming-forecast>
@@ -47,7 +48,7 @@
       </ng-container>
   
       <ng-container *ngIf="!showMoreContent">
-        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1">
+        <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1" *ngIf="listState.state === listStateValue.SUCCESS">
           <app-air-conditions
             [realFell]="listState.result.list[selectForecastDay].main.feels_like"
             [chanceToRain]="getRainChance(listState.result.list[selectForecastDay].rain)"
@@ -59,7 +60,7 @@
       </ng-container>
     </div>
   
-    <div class=" bg-gray-800 rounded-lg p-4 flex-col flex-[1]">
+    <div class=" bg-gray-800 rounded-lg p-4 flex-col flex-[1]" *ngIf="listState.state === listStateValue.SUCCESS">
       <ng-container *ngIf="showMoreContent">
         <div class="weather-info-container bg-gray-800 rounded-lg p-4 flex-1 gap-4">
           <app-upcoming-forecast
