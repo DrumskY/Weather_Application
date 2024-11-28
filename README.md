@@ -20,16 +20,16 @@ Install dependencies `npm install`. Run `npm start` for a dev server. Navigate t
 ## Screenshots
 
 Home Page:
-![image](../weather_app/src/app/assets/image.png)
+![image](./assets/image.png)
 
 Home Page (See more):
-![Image](../weather_app/src/app/assets/image-1.png)
+![Image](./assets/image-1.png)
 
 Cities Page:
-![Image](../weather_app/src/app/assets/image-2.png)
+![Image](./assets/image-2.png)
 
 Cities Page (add another city):
-![Image](../weather_app/src/app/assets/image-3.png)
+![Image](./assets/image-3.png)
 
 ## Used
 
