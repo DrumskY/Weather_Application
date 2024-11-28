@@ -11,11 +11,12 @@ import { LocalStorageService } from "../../services/local-storage.service";
 import { CommonModule, NgFor, NgIf } from "@angular/common";
 import { UpcomingForecastComponent } from "../../components/upcoming-forecast.component";
 import { WeekForecastComponent } from "../../components/week-forecast.component";
+import { DefaultLoaderComponent } from "../../ui/default-loader.component";
 
 @Component({
     selector: 'app-cities-page',
     standalone: true,
-    imports: [NgIf, NgFor, SearchInputComponent, CityCardItemComponent, UpcomingForecastComponent, CommonModule, WeekForecastComponent],
+    imports: [NgIf, NgFor, SearchInputComponent, CityCardItemComponent, UpcomingForecastComponent, CommonModule, WeekForecastComponent, DefaultLoaderComponent],
     templateUrl: './cities-page.component.html',
     styleUrl: './cities-page.component.scss'
 })

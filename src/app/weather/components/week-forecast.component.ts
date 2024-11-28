@@ -101,13 +101,11 @@ export class WeekForecastComponent {
           }
           result.push(selectedEntry);
       
-          // Jeśli limitToThree jest true i osiągnięto 3 elementy, przerwij pętlę
           if (limitToThree && result.length === 3) {
             break;
           }
         }
 
-        console.log(result)
       
         return result;
       }
