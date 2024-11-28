@@ -9,8 +9,8 @@ import { CityDetailsType } from "../types/CityDetailsType";
 })
 export class WeatherApiService {
     private KEY = "2f7032e704615af4e6b7fc0df7eba04f"
-    private forecastWeatherDataUrl = "https://api.openweathermap.org/data/2.5/forecast";
-    private cityDetailsUrl = "http://api.openweathermap.org/geo/1.0/direct"
+    private forecastWeatherDataUrl = "/api/data/2.5/forecast";
+    private cityDetailsUrl = "/api/geo/1.0/direct"
 
     // private iconUrl = "https://openweathermap.org/img/wn/"
     // private iconUrl = "http://api.openweathermap.org/data/2.5/weather"
@@ -26,7 +26,7 @@ export class WeatherApiService {
     // }
 
     getIcon(iconCode: string): Observable<string> {
-      const url = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+      const url = `/api/img/wn/${iconCode}@4x.png`;
       return this.http.get(url, { responseType: 'blob' }).pipe(
         map((blob) => {
           // Convert the blob into an object URL

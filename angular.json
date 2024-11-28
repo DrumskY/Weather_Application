@@ -87,12 +87,16 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "weather_app:build:production"
             },
             "development": {
-              "buildTarget": "weather_app:build:development"
+              "buildTarget": "weather_app:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

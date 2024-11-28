@@ -34,7 +34,7 @@ export class CityWeatherPageComponent {
     public showMoreContent = false;
 
     ngOnInit(): void {
-        this.loadDefault()
+        this.getLocation()
         const searchSub = this.searchService.searchEvent$.subscribe(query => {
           if (query !== '') {
             this.performSearch(query);
@@ -69,35 +69,20 @@ export class CityWeatherPageComponent {
       this.showMoreContent = true
     }
 
-
-    
-    loadDefault(): void {
-      this.weatherService.getCityDetails('Chicago').subscribe((response: CityDetailsType[]) => {
-          if (response && response.length > 0) {
-            const chicagoLat = response[0].lat;
-            const chicagoLon = response[0].lon;
-            this.getForecastWeatherData(chicagoLat, chicagoLon);
-            this.tryGetCurrentLocation(chicagoLat, chicagoLon);
-          } else {
-            console.error('Could not load default location.');
-          }
-      });
-    }
-
-    tryGetCurrentLocation(defaultLat: number, defaultLon: number): void {
-      this.weatherService.getCurrentLocation()
-        .then(position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            this.getForecastWeatherData(lat, lon); // Override with current location
-        })
-        .catch(error => {
-            console.warn('Could not get current location, using default');
-        });
-    }
+    getLocation(): void {
+        this.listState = { state: LIST_STATE_VALUE.LOADING };
+        this.weatherService.getCurrentLocation()
+          .then(position => {
+            this.getForecastWeatherData(position.coords.latitude, position.coords.longitude)
+          })
+          .catch(error => {
+            this.weatherService.getCityDetails('Chicago').subscribe((response: CityDetailsType[])=>{
+                this.getForecastWeatherData(response[0].lat, response[0].lon)
+            })
+          });
+      }
 
       getForecastWeatherData(lat: number, lon: number): void {
-        this.listState = { state: LIST_STATE_VALUE.LOADING };
         this.weatherService.getForecastWeatherData(String(lat), String(lon)).subscribe({
           next: (response) => {
             this.listState = {
