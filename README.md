@@ -2,6 +2,10 @@
 
 A weather application developed using **Angular** and **TypeScript** that uses the **OpenWeather API** to retrieve weather forecasts based on the city name entered.
 
+## Links
+
+Link to Weather App: https://weather-application-pink-eight.vercel.app/weather
+
 ## Features
 
 - Download the current weather for any city.
