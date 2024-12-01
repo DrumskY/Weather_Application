@@ -10,7 +10,7 @@ import { CityDetailsType } from "../types/CityDetailsType";
 export class WeatherApiService {
     private KEY = "2f7032e704615af4e6b7fc0df7eba04f"
     private forecastWeatherDataUrl = "https://api.openweathermap.org/data/2.5/forecast";
-    private cityDetailsUrl = "http://api.openweathermap.org/geo/1.0/direct"
+    private cityDetailsUrl = "https://api.openweathermap.org/geo/1.0/direct"
 
     private http = inject(HttpClient);
 
